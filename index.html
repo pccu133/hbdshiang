@@ -599,22 +599,23 @@ canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-in
 
   enter('#s6');
   tl.addLabel('party');
+  const BUBBLE = Math.max(19, tl.labels.party);   // 泡泡和主角照片在第 19 秒一起出現
   // 每顆泡泡：隨機出場順序、速度、左右搖擺
-  gsap.utils.toArray('.balloon').forEach(b => {
+  gsap.utils.toArray('.balloon').forEach((b, i) => {
     const d = gsap.utils.random(5, 8.5);
-    tl.fromTo(b, {y:'120vh', x:0}, {y:'-130vh', x:gsap.utils.random(-50, 50), duration:d, ease:'none'},
-      'party+=' + gsap.utils.random(0, 3.5).toFixed(2));
+    tl.fromTo(b, {yPercent:100, y:0, x:0}, {yPercent:0, y:'-130vh', x:gsap.utils.random(-50, 50), duration:d, ease:'none'},
+      BUBBLE + (i === 0 ? 0 : gsap.utils.random(0, 3.5)));
   });
   // 音樂（bgm.mp3，約 26 秒）放完的那一刻：帽子落下、「可可，生日快樂！」同時出現
   const LAND = Math.max(26.0, tl.labels.party + 3.5);
-  tl.from('.frame .disc', {scale:0, rotation:-180, duration:.9, ease:'back.out(1.6)'}, LAND - 3)
+  tl.from('.frame .disc', {scale:0, rotation:-180, duration:.9, ease:'back.out(1.6)'}, BUBBLE)
     .from('.frame .hat', {y:-300, rotation:-40, autoAlpha:0, duration:1, ease:'power3.in'}, LAND - 1)
     .to('.frame .hat', {scaleY:.8, scaleX:1.15, transformOrigin:'50% 100%', duration:.12, yoyo:true, repeat:1}, LAND)
     .from('#hbd span', {y:-40, autoAlpha:0, rotation:-20, duration:.6, stagger:.05, ease:'back.out(2)'}, LAND)
     .call(() => window.burst && window.burst(innerWidth/2, innerHeight*.45, 140), null, LAND)
     .fromTo('#dots i', {scale:0, autoAlpha:1}, {scale:3.2, autoAlpha:0, duration:1.4, stagger:.12, ease:'power1.out'}, LAND)
-    .from('.wish-text', {y:20, autoAlpha:0, duration:.9}, LAND + .9);
-  tl.to('#s6', {autoAlpha:0, duration:.8}, LAND + 5.5);
+    .from('.wish-text', {y:20, autoAlpha:0, duration:.7}, LAND + .6);
+  tl.to('#s6', {autoAlpha:0, duration:.8}, LAND + 3);
   // 以音樂時間為準：畫面卡頓時動畫會落後，這裡把它拉回跟音樂同步
   gsap.ticker.lagSmoothing(0);
   gsap.ticker.add(() => {
