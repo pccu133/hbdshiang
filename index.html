@@ -614,8 +614,8 @@ canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-in
     .from('#hbd span', {y:-40, autoAlpha:0, rotation:-20, duration:.6, stagger:.05, ease:'back.out(2)'}, LAND)
     .call(() => window.burst && window.burst(innerWidth/2, innerHeight*.45, 140), null, LAND)
     .fromTo('#dots i', {scale:0, autoAlpha:1}, {scale:3.2, autoAlpha:0, duration:1.4, stagger:.12, ease:'power1.out'}, LAND)
-    .from('.wish-text', {y:20, autoAlpha:0, duration:.7}, LAND + .6);
-  tl.to('#s6', {autoAlpha:0, duration:.8}, LAND + 3);
+    .from('.wish-text', {y:20, autoAlpha:0, duration:.5}, LAND + .3);
+  tl.to('#s6', {autoAlpha:0, duration:.6}, LAND + 2);   // 字全部出現後約停 1 秒
   // 以音樂時間為準：畫面卡頓時動畫會落後，這裡把它拉回跟音樂同步
   gsap.ticker.lagSmoothing(0);
   gsap.ticker.add(() => {
