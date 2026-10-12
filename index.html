@@ -624,9 +624,10 @@ canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-in
     if (Math.abs(drift) > .08) tl.time(bgm.currentTime);
   });
 
-  tl.addLabel('outro');
-  enter('#s7');
-  tl.from('#s7 > *', {y:24, autoAlpha:0, duration:.6, stagger:.25});
+  // 照片淡出後馬上接結尾（不等還在飄的泡泡）
+  tl.addLabel('outro', LAND + 2.6);
+  enter('#s7', 'outro');
+  tl.from('#s7 > *', {y:24, autoAlpha:0, duration:.6, stagger:.25}, 'outro');
 
   /* ---------- 控制 ---------- */
   function open(){
